@@ -236,6 +236,22 @@ public class VariableElimination
             counter++;
         }
     }
+    public boolean isChild(Factor f1)
+    {
+        boolean ans = false;
+        if (f1.getParents().length < 1)
+            return false;
+//        System.out.println(f1.getParents()[0]);
+        for (int i = 0; i < f1.getParents().length ; i++)
+        {
+//            System.out.println(f1.getParents()[i].getName());
+            if(this.factor.getName().equals(f1.getParents()[i].getName()))
+            {
+                ans = true;
+            }
+        }
+        return ans;
+    }
 }
 
 

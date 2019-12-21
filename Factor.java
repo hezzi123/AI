@@ -9,6 +9,7 @@ public class Factor
     private Factor [] parents;
     private ArrayList<String> cpt;
     private String name;
+
     //empty constructor
     public Factor()
     {
@@ -28,7 +29,7 @@ public class Factor
     public Factor(String[] values , ArrayList<String> s , String name)
     {
         this.values = values;
-        this.parents = null;
+        this.parents = new Factor[0];
         this.cpt = s;
         this.name = name;
     }
