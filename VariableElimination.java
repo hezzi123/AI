@@ -15,7 +15,7 @@ public class VariableElimination
 
     public ArrayList<ArrayList<String>> addToMat(Factor factor)
     {
-//fit the first ArrayList
+        //variables for the first for
         ArrayList<String> parents = new ArrayList<>();
         ArrayList<String> operatorFirstIdx = new ArrayList<>();
         ArrayList<String> numeric = new ArrayList<>();
@@ -23,8 +23,10 @@ public class VariableElimination
         String[] splitArr;
         double sum = 0;
         String s;
+        //fit the first ArrayList
         for (int i = 0; i < factor.getCpt().size(); i ++)
         {
+
             splitArr = factor.getCpt().get(i).split(",");
             for (int j = 0; j < factor.getParents().length; j++)
             {
@@ -49,13 +51,12 @@ public class VariableElimination
                 mat.get(j).add(operatorFirstIdx.get(j));
                 mat.get(j).add(numeric.get(j));
             }
-//            System.out.println(mat);
-//            System.out.println(mat.size());
             parents = new ArrayList<>();
             operatorFirstIdx = new ArrayList<>();
             numeric = new ArrayList<>();
             sum = 0;
         }
+        //fixing the mat (that it will only print every row 1 time instead of the amount of values that the factor has)
         ArrayList<ArrayList<String>> newMat = new ArrayList<>();
         ArrayList<String> newList = new ArrayList<>();
         for (int i = 0; i < mat.size(); i += factor.getValues().length)
@@ -67,20 +68,7 @@ public class VariableElimination
             newMat.add(newList);
             newList = new ArrayList<>();
         }
-//        reverse(newMat);
-//        System.out.println(newMat.size());
-//        for (int i = 0; i < newMat.size(); i++)
-//        {
-//            for (int j = 0; j < newMat.get(0).size(); j++)
-//            {
-//                System.out.print(newMat.get(i).get(j) + "   ");
-//            }
-//            System.out.println();
-//        }
-//        System.out.println("***************************************************************************");
-//        System.out.println();
-//        System.out.println();
-//        System.out.println();
+        //adding the parents values before every operation and the numeric number
         ArrayList<ArrayList<String>> lastMat = new ArrayList<>();
         for (int i = 0; i < newMat.size(); i++)
         {
@@ -97,55 +85,34 @@ public class VariableElimination
             lastMat.add(newList);
             newList = new ArrayList<>();
         }
-//        reverse(newMat);
-//        System.out.println(lastMat.size());
-//        System.out.println(lastMat.get(0).size());
-//        for (int i = 0; i < lastMat.size(); i++)
-//        {
-//            for (int j = 0; j < lastMat.get(0).size(); j++)
-//            {
-//                System.out.print(lastMat.get(i).get(j) + "   ");
-//            }
-//            System.out.println();
-//        }
-//        System.out.println("***************************************************************************");
-//        System.out.println();
-//        System.out.println();
-//        System.out.println();
+        //variables for the last for
         ArrayList<ArrayList<String>> returnMat = new ArrayList<>();
-        int counter = 0;
-        int counter1 = 0;
-        int counter2 = 0;
+        int firstPlacesList = 0;
+        int endLine = 0;
+        int indexLine = 0;
+        //cutting every row into x rows, that x=how many values the factor has
         for (int i = 0; i < factor.getCpt().size() * factor.getValues().length; i++)
         {
-                for (int j = 0; j < factor.getParents().length + 2; j++)
-                {
-                    newList.add(counter , lastMat.get(counter2).get(counter1));
-                    counter++;
-                    counter1++;
-                }
-                returnMat.add(newList);
-                newList = new ArrayList<>();
-                counter = 0;
-                if (counter1 == lastMat.get(0).size())
-                {
-                    counter1 = 0;
-                    counter2++;
-                }
+            for (int j = 0; j < factor.getParents().length + 2; j++)
+            {
+                newList.add(firstPlacesList , lastMat.get(indexLine).get(endLine));
+                firstPlacesList++;
+                endLine++;
+            }
+            returnMat.add(newList);
+            newList = new ArrayList<>();
+            firstPlacesList = 0;
+            if (endLine == lastMat.get(0).size())
+            {
+                endLine = 0;
+                indexLine++;
+            }
         }
         reverse(returnMat);
-//        System.out.println(returnMat.size());
-//        System.out.println(returnMat.get(0).size());
-//        for (int i = 0; i < returnMat.size(); i++)
-//        {
-//            for (int j = 0; j < returnMat.get(0).size(); j++)
-//            {
-//                System.out.print(returnMat.get(i).get(j) + "   ");
-//            }
-//            System.out.println();
-//        }
+
         return returnMat;
     }
+    //reversing our matrix
     public ArrayList<ArrayList<String>> reverse(ArrayList<ArrayList<String>> list) {
         for(int i = 0, j = list.size() - 1; i < j; i++) {
             list.add(i, list.remove(j));
@@ -156,8 +123,6 @@ public class VariableElimination
 
     public void print()
     {
-//        System.out.println(this.arr.size());
-//        System.out.println(this.arr.get(0).size());
         for (int i = 0; i < this.arr.size(); i++)
         {
             for (int j = 0; j < this.arr.get(0).size(); j++)
@@ -179,23 +144,99 @@ public class VariableElimination
         }
         return true;
     }
+    //get the matriza
+    public ArrayList<ArrayList<String>> getArr()
+    {
+        return this.arr;
+    }
+    //get the factor
+    public Factor getFactor()
+    {
+        return this.factor;
+    }
+
+    //making a new matrix where we only take the given value of the child
+    public void forChilds(String s)
+    {
+
+        String[] temp;
+        int counter = 0;
+        ArrayList<ArrayList<String>> newChildMat = new ArrayList<>();
+        temp = s.split("=");
+        for (int i = 0; i < this.arr.size(); i++)
+        {
+            if (this.arr.get(i).get(this.factor.getParents().length).equals(temp[1]))
+            {
+                newChildMat.add(counter , this.arr.get(i));
+                counter++;
+            }
+        }
+        this.arr = newChildMat;
+    }
+
+    //we join the factors
+    public void joinFactors(VariableElimination v)
+    {
+        double sum;
+        int run = this.factor.getParents().length + 1;
+        int runParent = v.getFactor().getParents().length + 1;
+        int counter = 0;
+        for (int i = 0; i < v.getArr().size(); i++)
+        {
+            sum = Double.valueOf(this.arr.get(counter).get(run)) * Double.valueOf(v.getArr().get(i).get(runParent));
+            v.getArr().get(i).remove((runParent));
+            v.getArr().get(i).add(runParent , (String.valueOf(sum)));
+            counter++;
+            if (counter == this.factor.getValues().length)
+                counter = 0;
+            sum = 0;
+        }
+        this.arr = v.getArr();
+    }
+
+    //we eliminate the factor
+    public void eliminateFactors()
+    {
+        ArrayList<ArrayList<String>> newEliminateMat = new ArrayList<>();
+        int run = this.arr.get(0).size() - 1;
+        double sum = 0;
+        int counter = 0;
+        for (int i = 0; i < this.arr.size(); i += this.factor.getValues().length)
+        {
+            newEliminateMat.add(this.arr.get(i));
+            for (int j = 0; j < this.factor.getValues().length; j++)
+            {
+                sum += Double.valueOf(this.arr.get(i + j).get(run));
+            }
+            newEliminateMat.get(counter).remove(run);
+            newEliminateMat.get(counter).add((String.valueOf(sum)));
+            counter++;
+            sum = 0;
+        }
+        this.arr = newEliminateMat;
+    }
+    //we normalize the matrix
+    public void normalize()
+    {
+        ArrayList<ArrayList<String>> newNormalizeMat = new ArrayList<>();
+        int run = this.arr.get(0).size() - 1;
+        double sum = 0;
+        double end = 0;
+        int counter = 0;
+        for (int j = 0; j < this.arr.size(); j++)
+        {
+            sum += Double.valueOf(this.arr.get(j).get(run));
+        }
+        for (int i = 0; i < this.arr.size(); i++)
+        {
+            newNormalizeMat.add(this.arr.get(i));
+            end = Double.valueOf(this.arr.get(i).get(run)) / sum;
+            newNormalizeMat.get(counter).remove(run);
+            newNormalizeMat.get(counter).add((String.valueOf(end)));
+            counter++;
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

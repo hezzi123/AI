@@ -28,10 +28,96 @@ public class testerChecking
         Factor [] f = {f1 , f2};
         Factor f3 = new Factor(values , f , s);
         VariableElimination v = new VariableElimination(f3);
-        v.print();
+//        v.print();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println("************************************************************");
+//        System.out.println();
+//        System.out.println();
+        String [] values1 = {"true" , "false"};
+        String [] sds1 = new String[2];
+        ArrayList<String> s1 = new ArrayList<String>();
+        sds1[0] = "true,=true,0.9";
+        sds1[1] = "false,=true,0.05";
+
+
+        s1.add(sds1[0]);
+        s1.add(sds1[1]);
+        Factor [] factors = {f3};
+        Factor f4 = new Factor(values1 , factors , s1);
+
+        VariableElimination v1 = new VariableElimination(f4);
+
+        v1.forChilds("f1=true");
+        v1.print();
+
+
+        String [] values2 = {"true" , "false"};
+        String [] sds2 = new String[2];
+        ArrayList<String> s2 = new ArrayList<String>();
+        sds2[0] = "true,=true,0.7";
+        sds2[1] = "false,=true,0.01";
+
+
+        s2.add(sds2[0]);
+        s2.add(sds2[1]);
+        Factor [] factors4 = {f3};
+        Factor f5 = new Factor(values2 , factors4 , s2);
+
+        VariableElimination v6 = new VariableElimination(f5);
+//        v1.print();
+        v6.forChilds("f1=true");
 
 
 
+
+
+
+
+
+//
+
+        System.out.println();
+        System.out.println();
+        System.out.println("************************************************************");
+        System.out.println();
+        System.out.println();
+//        VariableElimination v2 = new VariableElimination(f4);
+//        v2.forChilds("f1=false");
+//        v2.print();
+        v6.print();
+        System.out.println();
+        System.out.println("normalize");
+        v6.normalize();
+        v6.print();
+        System.out.println();
+        System.out.println();
+        System.out.println("************************************************************");
+        System.out.println();
+        System.out.println();
+        v1.joinFactors(v6);
+        v1.print();
+        System.out.println();
+        System.out.println();
+        System.out.println("************************************************************");
+        System.out.println();
+        System.out.println();
+        v1.joinFactors(v);
+        v1.print();
+        System.out.println();
+        System.out.println();
+        System.out.println("************************************************************");
+        System.out.println();
+        System.out.println();
+        v1.eliminateFactors();
+        v1.print();
+        System.out.println();
+        System.out.println();
+        System.out.println("************************************************************");
+        System.out.println();
+        System.out.println();
+        v1.normalize();
+        v1.print();
 
 
 
