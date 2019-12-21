@@ -8,25 +8,29 @@ public class Factor
     private String [] values;
     private Factor [] parents;
     private ArrayList<String> cpt;
+    private String name;
     //empty constructor
     public Factor()
     {
         this.values = new String[0];
         this.parents = new Factor[0];
         this.cpt = new ArrayList<>();
+        this.name = "";
     }
-    public Factor(String[] values , Factor[] parents, ArrayList<String> s)
+    public Factor(String[] values , Factor[] parents, ArrayList<String> s , String name)
     {
         this.values = values;
         this.parents = parents;
         this.cpt = s;
+        this.name = name;
     }
     //constructor if there are no parents
-    public Factor(String[] values , ArrayList<String> s)
+    public Factor(String[] values , ArrayList<String> s , String name)
     {
         this.values = values;
         this.parents = null;
         this.cpt = s;
+        this.name = name;
     }
     public ArrayList<String> getCpt()
     {
@@ -39,6 +43,10 @@ public class Factor
     public Factor[] getParents()
     {
         return this.parents;
+    }
+    public String getName()
+    {
+        return this.name;
     }
     public void setValues(String[] values)
     {
